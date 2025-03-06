@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Auth.css';
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { StoreContext } from '../../context/StoreContext';
 
 const Login =()=> {
     const [index, setIndex] = useState(0);
@@ -13,6 +14,50 @@ const Login =()=> {
     const handlePrev = () => {
         setIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
     };
+
+    const {url, setToken} = useContext(StoreContext)
+    
+    const [currState, setCurrState] = useState("Login")
+    const [data, setData] = useState({
+      name:"",
+      email:"",
+      password:""
+    })
+
+    const onChangeHandler = (event) => {
+        const name = event.target.name
+        const value = event.target.value
+        setData(data=>({...data,[name]:value}))
+      }
+
+      
+    const onLogin = async (event) =>{
+        event.preventDefault();
+        let newUrl = url;
+        if(currState==="Login"){
+          newUrl += "/api/user/login"
+        }
+        else{
+          newUrl += "/api/user/register"
+        }
+  
+        const response = await axios.post(newUrl,data)
+  
+        if(response.data.success){
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+          setShowLogin(false)
+        }
+        else{
+          alert(response.data.message); 
+        }
+  
+      }
+  
+      useEffect(()=>{
+        console.log(data);
+      },[data])
+
 
     return (
         <>
