@@ -2,11 +2,9 @@
 
 import mongoose from 'mongoose';
 
-const dbUrl = "mongodb+srv://satishchawali:724893@cluster0.dqjxjvx.mongodb.net/yatri";
-
 export const connectDB = async () => {
     try {
-        await mongoose.connect(dbUrl);
+        await mongoose.connect(process.env.MONGODB_URL);
         console.log('MongoDB connected');
     } catch (error) {
         console.error('MongoDB connection error:', error);
