@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Auth.css';
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-function Login() {
+const Login =()=> {
     const [index, setIndex] = useState(0);
     const images = ["Auth_slider.jpg", "Auth_slider1.jpg"];
 
